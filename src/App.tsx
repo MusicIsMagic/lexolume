@@ -4,6 +4,7 @@ import { emptyLog, loadState, localDate, markShown, pickWord, saveState } from '
 import type { AppState, Cadence, FieldNote } from './types';
 import { Welcome } from './components/Welcome';
 import { WordCard } from './components/WordCard';
+import { Archive } from './components/Archive';
 
 /** Make sure `state.today` points at a valid word chosen for today's date. */
 function ensureToday(state: AppState): AppState {
@@ -21,13 +22,17 @@ export default function App() {
     return lexiconById[id] ? id : null;
   };
   const [linkedId, setLinkedId] = useState<string | null>(hashWord);
-  const [entered, setEntered] = useState(() => hashWord() !== null);
+  const isArchiveHash = () => window.location.hash === '#archive';
+  const [showArchive, setShowArchive] = useState(isArchiveHash);
+  const [entered, setEntered] = useState(() => hashWord() !== null || isArchiveHash());
 
   useEffect(() => {
     const onHash = () => {
       const id = hashWord();
       setLinkedId(id);
-      if (id) setEntered(true);
+      setShowArchive(isArchiveHash());
+      if (id || isArchiveHash()) setEntered(true);
+      window.scrollTo(0, 0);
     };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
@@ -96,6 +101,14 @@ export default function App() {
         <button className="wordmark" onClick={() => setEntered(false)} aria-label="Back to welcome">
           Lexo<span>Lume</span>
         </button>
+        <nav className="nav" aria-label="Sections">
+          <a href="#" className={!showArchive ? 'on' : ''} onClick={(e) => { e.preventDefault(); backToToday(); setShowArchive(false); }}>
+            Today
+          </a>
+          <a href="#archive" className={showArchive ? 'on' : ''}>
+            Archive
+          </a>
+        </nav>
         <div className="cadence" role="radiogroup" aria-label="Cadence">
           {(['morning', 'evening'] as const).map((c) => (
             <button
@@ -111,6 +124,11 @@ export default function App() {
         </div>
       </header>
 
+      {showArchive ? (
+        <main>
+          <Archive state={state} onReplaceState={(s) => setState(s)} />
+        </main>
+      ) : (
       <main className="today">
         {linkedId && (
           <p className="linked">
@@ -143,6 +161,7 @@ export default function App() {
           <p className="hint">For a moment that needs a different lens. Today's word is replaced with the new one.</p>
         </section>
       </main>
+      )}
 
       <footer className="foot">
         {lexicon.length} words in the deck · {resonantCount} marked resonant · Saved on this device only

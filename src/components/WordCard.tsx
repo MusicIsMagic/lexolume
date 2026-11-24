@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { connectionsFor } from '../data/pairs';
+import { lexiconById } from '../data/lexicon';
 import type { Cadence, UserLog, WordEntry, WordExample } from '../types';
 
 interface Props {
@@ -96,6 +98,20 @@ export function WordCard({ word, log, cadence, onToggleResonance, onAddNote, onD
           </aside>
         )}
       </section>
+
+      {connectionsFor(word.id).length > 0 && (
+        <section className="facet facet-links" aria-label="Connected words">
+          <h3>Connected words</h3>
+          <ul className="links">
+            {connectionsFor(word.id).map((c) => (
+              <li key={c.id + c.label}>
+                <span className="link-label">{c.label}</span>{' '}
+                <a href={`#${c.id}`}>{lexiconById[c.id]?.word ?? c.id}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className="facet facet-prompt">
         <h3>Field prompt</h3>

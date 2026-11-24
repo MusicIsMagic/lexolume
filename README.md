@@ -6,6 +6,15 @@ One word a day, held as a lens. Phase 1 of the LexoLume build: welcome screen, T
 (lens, shadow, lucidity check, field prompt), Morning/Evening cadence, "Draw another word", and
 resonance marks plus a dated field log saved in the browser's local storage.
 
+## Archive and your data
+
+Open **Archive** (or `#archive`) to search all words, their definitions, lenses, shadows, tags, and your own
+notes, and to filter by coined, existing, resonant, has notes, or paired words. Every card also lists its
+connected words (its shadow and related words), defined in `src/data/pairs.ts`.
+
+The **Your data** panel exports a JSON backup or a Markdown journal, and imports a JSON backup. Importing merges:
+notes are combined, resonance is kept, and nothing already in the browser is removed.
+
 ## Run it
 
 Needs Node 18 or newer.
@@ -34,4 +43,4 @@ repeats. "Draw another word" replaces today's word with another least-shown word
 ## Your data
 
 Everything is stored under the `lexolume:v1` key in this browser's local storage. Nothing leaves the device.
-JSON and Markdown export are planned for Phase 2.
+Use the Archive's export to back it up.
