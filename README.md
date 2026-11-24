@@ -15,6 +15,19 @@ connected words (its shadow and related words), defined in `src/data/pairs.ts`.
 The **Your data** panel exports a JSON backup or a Markdown journal, and imports a JSON backup. Importing merges:
 notes are combined, resonance is kept, and nothing already in the browser is removed.
 
+## Install on a phone
+
+Once deployed, LexoLume lives at `https://musicismagic.github.io/lexolume/`.
+
+- **iPhone (Safari):** open the link, tap **Share**, then **Add to Home Screen**.
+- **Android (Chrome):** open the link, then tap **Install app** (or the menu's **Add to Home screen**).
+
+It opens full-screen with its own icon and works offline after the first visit. Notes stay on each device;
+use the Archive's export and import to move them.
+
+**Deploys** run automatically on every push to `main` (`.github/workflows/deploy.yml`). One-time setup:
+in the repository, open **Settings → Pages** and set **Source** to **GitHub Actions**.
+
 ## Run it
 
 Needs Node 18 or newer.
